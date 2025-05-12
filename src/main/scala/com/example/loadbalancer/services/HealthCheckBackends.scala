@@ -24,7 +24,7 @@ object HealthCheckBackends {
     updateBackendsAndGet,
     healthChecksRoundRobin,
     sendAndExpectStatus
-  ) *> IO.sleep(healthCheckInterval.value.seconds).foreverM
+  ).flatMap(_ => IO.sleep(healthCheckInterval.value.seconds)).foreverM
 
   private[services] def checkHealthAndUpdateBackends(
       healthChecksUrlsRef: UrlsRef.HealthChecks,

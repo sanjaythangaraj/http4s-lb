@@ -25,7 +25,7 @@ object SendAndExpect {
     info"[LOAD-BALANCER] sending request to $uri" *>
       httpClient.sendAndReceive(uri, req.some).handleErrorWith {
         case UnexpectedStatus(NotFound, _, _) =>
-          "resource was not found"
+          s"resource at uri: $uri was not found"
             .pure[IO]
             .flatTap(msg => warn"$msg")
         case _ =>

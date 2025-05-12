@@ -3,6 +3,11 @@ package com.example.loadbalancer.domain
 import scala.util.Try
 
 final case class Urls(values: Vector[Url]) extends AnyVal {
+
+  def next: Urls =
+    Try(copy(values.tail :+ values.head))
+      .getOrElse(Urls.empty)
+
   def currentOpt: Option[Url] =
     Try(currentUnsafe).toOption
 
